@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "b482933e-daa2-41cf-b7f4-155014ac02a9",
+		"name": "fakerestapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6265410"
+	},
+	"item": [
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "Get All Authors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"  Test Case 1: to validate response status and code\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Responce for HTTP request 200\",function(){\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"/*\r",
+									"  Test Case 2: to validate response contain id, idBook, firstName, lastName\r",
+									"*/\r",
+									"pm.test(\"Response body should contain id, idBook, firstName, lastName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"idBook\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"firstName\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"lastName\");\r",
+									"});\r",
+									"\r",
+									"/*\r",
+									"  Test Case 3: to validate response time\r",
+									"*/\r",
+									"pm.test(\"Response time is less than 7000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
+									"});\r",
+									"\r",
+									"/*\r",
+									"  Test Case 4: to validate header contain application/json\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"The response has a json body\", function()\r",
+									"{\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.contain(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/Authors",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"  Test Case 1: to validate response status and code\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"response code 200 ok\",function(){\r",
+									"   pm.expect(pm.response.code).to.equal(200);\r",
+									"   pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"/*\r",
+									"  Test Case 2: firstname & lastname should be mandatory using any chai assertion\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"response Body contains firstname & lastname\", function(){\r",
+									"    pm.expect(pm.response.json()).to.have.any.keys('firstName','lastName');\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1000,\r\n  \"idBook\": 1000,\r\n  \"firstName\": \"Sameh\",\r\n  \"lastName\": \"Khalil\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/Authors",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Author idBook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"  Test Case 1: to validate response status and code\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"/*\r",
+									"  Test Case 2: to validate the respond body contain the correct ID Book\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Searching with valid ID should return correct data in response\", function()\r",
+									"{\r",
+									"    for(var i = 0 ; i < pm.response.json().length ; i++)\r",
+									"    {\r",
+									"        pm.expect(pm.response.json()[i].idBook).to.equal(pm.environment.get(\"Id_Book\"));\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"Id_Book\", 1);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/Authors/authors/books/{{Id_Book}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Authors",
+								"authors",
+								"books",
+								"{{Id_Book}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Author ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});\r",
+									"\r",
+									" pm.test(\"The author's data is changed in GET request\", function(){\r",
+									"     pm.expect(pm.response.json().firstName).to.contain(\"First Name 10\");\r",
+									"     pm.expect(pm.response.json().lastName).to.contain(\"Last Name 10\");\r",
+									" });\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"author_Id\", 10);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/Authors/{{author_Id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Authors",
+								"{{author_Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Author (firstname, lastname)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									" Test case 1: Test Case 1: to validate response status and code\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});\r",
+									"\r",
+									"/*\r",
+									" Test case 2: to verfiy that Author value in response is updated successfully\r",
+									"*/\r",
+									" pm.test(\"Author's data in response is updated successfully\", function(){\r",
+									"     pm.expect(pm.response.json().firstName).to.eql(\"New Sameh\");\r",
+									"     pm.expect(pm.response.json().lastName).to.eql(\"New Khalil\");\r",
+									" });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"author_Id\", 1);\r",
+									"pm.environment.set(\"id_Book\", 1)\r",
+									"pm.environment.set(\"first_Name\", \"New Sameh\");\r",
+									"pm.environment.set(\"last_Name\", \"New Khalil\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{author_Id}},\r\n  \"idBook\": {{id_Book}},\r\n  \"firstName\": \"{{first_Name}}\",\r\n  \"lastName\": \"{{last_Name}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/Authors/{{author_Id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Authors",
+								"{{author_Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									" Test case 1: to validate response status and code\r",
+									"*/\r",
+									"\r",
+									"\r",
+									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.environment.unset(\"first_Name\");\r",
+									"pm.environment.unset(\"last_Name\");\r",
+									"pm.environment.unset(\"Id_Book\");\r",
+									"pm.environment.unset(\"BookID\");\r",
+									"pm.environment.unset(\"author_Id\");\r",
+									"pm.environment.unset(\"idBook\");\r",
+									"pm.environment.unset(\"id_Book\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/Authors/:id\n",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Authors",
+								":id\n"
+							],
+							"variable": [
+								{
+									"key": "id\n",
+									"value": "{{author_Id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
