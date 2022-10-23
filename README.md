@@ -5,3 +5,5 @@ Automate all the test cases and generate a testing report w/ the status of featu
 ****  the Test report created by run on  newman ****
 
 newman run "collection.json" -e "environment.json" -n 1 -r htmlextra
+
+The reports is HTML report show all information and TCs
