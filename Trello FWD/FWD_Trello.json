@@ -19,11 +19,16 @@
 							"\r",
 							"var jsonData = pm.response.json();\r",
 							"\r",
-							"pm.test(\"The closed parameter should be false\", function () {\r",
+							"pm.test(\"Test the closed parameter should be false\", function () {\r",
 							"    pm.expect(jsonData.closed).to.eql(false); \r",
 							"});\r",
 							"\r",
-							"pm.test(\"Check The permissionLevel should be private\", function () {\r",
+							"pm.test(\"check Cookie exists\", function () {\r",
+							"    pm.expect(pm.cookies.has('preAuthProps')).to.be.true;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Test The permissionLevel should be private\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"permissionLevel\");\r",
 							"});\r",
 							"\r",
@@ -35,7 +40,9 @@
 							"    pm.expect(jsonData.prefs.canInvite).to.eql(true);\r",
 							"});\r",
 							"\r",
-							"pm.environment.set(\"BoardID\", jsonData.id);"
+							"pm.environment.set(\"BoardID\", jsonData.id);\r",
+							"\r",
+							"postman.setNextRequest(\"Get All Boards\");"
 						],
 						"type": "text/javascript"
 					}
@@ -44,7 +51,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"pm.environment.get(\"URL\");"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -119,7 +126,8 @@
 							"pm.test(\"Check Board ID\", function () {\r",
 							"    pm.expect(JsonData[0].id).to.eql(pm.environment.get(\"BoardID\"));\r",
 							"});\r",
-							""
+							"\r",
+							"postman.setNextRequest(\"create a list\");"
 						],
 						"type": "text/javascript"
 					}
@@ -166,25 +174,20 @@
 							"\r",
 							"var jsonData = pm.response.json();\r",
 							"\r",
-							"// check property Id \r",
-							"pm.test(\"Check ID key\", function () {\r",
+							"pm.test(\"Test ID Exist\", function () {\r",
 							"    pm.expect(jsonData).to.have.property(\"id\");\r",
 							"});\r",
-							"// check property name \r",
-							"pm.test(\"Check name\", function () {\r",
+							"\r",
+							"pm.test(\"Test name Exist\", function () {\r",
 							"    pm.expect(jsonData).to.have.property(\"name\");\r",
 							"});\r",
-							"// check property idBoard \r",
-							"pm.test(\"idBoard\", function () {\r",
+							"\r",
+							"pm.test(\"Test idBoard Exist\", function () {\r",
 							"    pm.expect(jsonData).to.have.property(\"idBoard\");\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Check closed  to be False\", function () {\r",
 							"    pm.expect(jsonData.closed).to.eql(false);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"limits are empty object\", function () {\r",
-							"    pm.expect(jsonData.limits).to.be.empty;\r",
 							"});\r",
 							"\r",
 							"pm.environment.set(\"ListID\", jsonData.id);\r",
@@ -250,17 +253,20 @@
 							"\r",
 							"var jsonData = pm.response.json();\r",
 							"\r",
-							"// check Card Name\r",
 							"pm.test(\"Check card name \", function () {\r",
 							"    pm.expect(jsonData.name).to.eql(\"Home Page\");\r",
 							"});\r",
 							"\r",
-							"// check Card Description\r",
+							"\r",
 							"pm.test(\"Check card name \", function () {\r",
 							"    pm.expect(jsonData.desc).to.eql(\"homae Page funcation\");\r",
 							"});\r",
 							"\r",
-							""
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"ID_Card\", jsonData.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -305,6 +311,182 @@
 			"response": []
 		},
 		{
+			"name": "Update Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Check card name after update \", function () {\r",
+							"    pm.expect(jsonData.name).to.eql(\"Login Page\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/1/cards/:id?key={{Key}}&token={{Token}}&name=Login Page&subscribed=false",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{Key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{Token}}"
+						},
+						{
+							"key": "name",
+							"value": "Login Page"
+						},
+						{
+							"key": "subscribed",
+							"value": "false"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{ID_Card}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Checklist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Check Checklist name \", function () {\r",
+							"    pm.expect(jsonData.name).to.eql(\"Development Checklist\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"ChecklistID\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/1/checklists?idCard={{ID_Card}}&key={{Key}}&token={{Token}}&name=Development Checklist",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"1",
+						"checklists"
+					],
+					"query": [
+						{
+							"key": "idCard",
+							"value": "{{ID_Card}}"
+						},
+						{
+							"key": "key",
+							"value": "{{Key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{Token}}"
+						},
+						{
+							"key": "name",
+							"value": "Development Checklist"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Checklist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 400ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"ChecklistID\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/1/checklists/:id?key={{Key}}&token={{Token}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"1",
+						"checklists",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{Key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{Token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{ChecklistID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "idBoards Numbers",
 			"event": [
 				{
@@ -317,7 +499,6 @@
 							"var jsonData = pm.response.json();\r",
 							"var boardsL = jsonData.boards.length;\r",
 							"\r",
-							"// check the worksapce contain Board\r",
 							"pm.test(\"Number of boards should be more than 0\", function () {\r",
 							"    pm.expect(boardsL).to.be.above(0);\r",
 							"});\r",
@@ -422,9 +603,12 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
+							"pm.test(\"check Cookie exists\", function () {\r",
+							"    pm.expect(pm.cookies.has('preAuthProps')).to.be.true;\r",
+							"});\r",
+							"\r",
 							"var jsonData = pm.response.json();\r",
 							"\r",
-							"// check property Id \r",
 							"pm.test(\"Check list name \", function () {\r",
 							"    pm.expect(jsonData.name).to.eql(\"Design\");\r",
 							"});"
@@ -491,9 +675,9 @@
 							"    pm.expect(jsonData.closed).to.eql(true);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Set-cookie in the header's response \", function () {\r",
-							"    var cookies_header = pm.response.headers.get(\"Set-Cookie\");\r",
-							"    pm.expect(cookies_header).contains(\"isEnterpriseAdmin%3Dfalse\");\r",
+							"pm.test(\"Check value Access-Control-Expose-Headers in Header \", function () {\r",
+							"    var cookies_header = pm.response.headers.get(\"Access-Control-Expose-Headers\");\r",
+							"    pm.expect(cookies_header).contains(\"api-key-interval-ms\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -549,9 +733,13 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
+							"pm.test(\"Check Header \", function () {\r",
+							"pm.expect(pm.response.headers.get('Pragma')).to.eql('no-cache');\r",
+							"});\r",
 							"\r",
 							"pm.environment.unset(\"BoardID\");\r",
 							"pm.environment.unset(\"ListID\");\r",
+							"\r",
 							""
 						],
 						"type": "text/javascript"
@@ -571,7 +759,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/1/boards/:id?key={{Key}}&token={{Token}}",
+					"raw": "{{URL}}/1/boards/:id?key={{Key}}&token={{Token}}&=",
 					"host": [
 						"{{URL}}"
 					],
@@ -588,6 +776,10 @@
 						{
 							"key": "token",
 							"value": "{{Token}}"
+						},
+						{
+							"key": "",
+							"value": ""
 						}
 					],
 					"variable": [
