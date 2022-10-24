@@ -1,0 +1,101 @@
+{
+    "id": "62aaf03f79b91a3011650a76",
+    "aaId": "62aaf0157b388c006722a540",
+    "activityBlocked": false,
+    "avatarHash": "809fc45748641991ec87f99a14b60c75",
+    "avatarUrl": "https://trello-members.s3.amazonaws.com/62aaf03f79b91a3011650a76/809fc45748641991ec87f99a14b60c75",
+    "bio": "",
+    "bioData": null,
+    "confirmed": true,
+    "fullName": "Sameh khalil",
+    "idEnterprise": null,
+    "idEnterprisesDeactivated": [],
+    "idMemberReferrer": null,
+    "idPremOrgsAdmin": [],
+    "initials": "SK",
+    "memberType": "normal",
+    "nonPublic": {},
+    "nonPublicAvailable": true,
+    "products": [],
+    "url": "https://trello.com/samehkhalil13",
+    "username": "samehkhalil13",
+    "status": "disconnected",
+    "aaBlockSyncUntil": null,
+    "aaEmail": null,
+    "aaEnrolledDate": null,
+    "avatarSource": "none",
+    "credentialsRemovedCount": 0,
+    "domainClaimed": null,
+    "email": "sameh.beshara@expleogroup.com",
+    "goldSunsetFreeTrialIdOrganization": null,
+    "gravatarHash": "4e4c9d313459585d3affc5a786b690b0",
+    "idBoards": [
+        "6356f7dea69a9d01e3b5f560"
+    ],
+    "idOrganizations": [
+        "62aaf0a185b91f6603d52568"
+    ],
+    "idEnterprisesAdmin": [],
+    "limits": {
+        "boards": {
+            "totalPerMember": {
+                "status": "ok",
+                "disableAt": 4500,
+                "warnAt": 3600
+            }
+        },
+        "orgs": {
+            "totalPerMember": {
+                "status": "ok",
+                "disableAt": 850,
+                "warnAt": 680
+            }
+        }
+    },
+    "loginTypes": [
+        "atlassian"
+    ],
+    "marketingOptIn": {
+        "optedIn": true,
+        "date": "2022-06-16T08:56:33.463Z"
+    },
+    "messagesDismissed": [],
+    "oneTimeMessagesDismissed": [
+        "sent-possible-new-signup-event",
+        "close-menu-of-first-board",
+        "banner-enterprise-discoverable"
+    ],
+    "prefs": {
+        "privacy": {
+            "fullName": "public",
+            "avatar": "public"
+        },
+        "sendSummaries": true,
+        "minutesBetweenSummaries": 60,
+        "minutesBeforeDeadlineToNotify": 1440,
+        "colorBlind": false,
+        "locale": "en-US"
+    },
+    "trophies": [],
+    "uploadedAvatarHash": null,
+    "uploadedAvatarUrl": null,
+    "premiumFeatures": [
+        "additionalBoardBackgrounds",
+        "additionalStickers",
+        "customBoardBackgrounds",
+        "customEmoji",
+        "customStickers",
+        "plugins"
+    ],
+    "isAaMastered": true,
+    "ixUpdate": "228",
+    "boards": [
+        {
+            "id": "6356f7dea69a9d01e3b5f560",
+            "name": "FWD",
+            "closed": false,
+            "idOrganization": "62aaf0a185b91f6603d52568",
+            "pinned": false
+        }
+    ]
+}
