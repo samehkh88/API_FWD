@@ -16,10 +16,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"/*\r",
-									"  Test Case 1: to validate response status and code\r",
-									"*/\r",
-									"\r",
 									"pm.test(\"Responce for HTTP request 200\",function(){\r",
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
@@ -27,32 +23,15 @@
 									"\r",
 									"var jsonData = pm.response.json();\r",
 									"\r",
-									"/*\r",
-									"  Test Case 2: to validate response contain id, idBook, firstName, lastName\r",
-									"*/\r",
-									"pm.test(\"Response body should contain id, idBook, firstName, lastName\", function () {\r",
+									"pm.test(\"Response body should contain id : idBook, firstName, lastName\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
 									"    pm.expect(pm.response.text()).to.include(\"idBook\");\r",
 									"    pm.expect(pm.response.text()).to.include(\"firstName\");\r",
 									"    pm.expect(pm.response.text()).to.include(\"lastName\");\r",
 									"});\r",
 									"\r",
-									"/*\r",
-									"  Test Case 3: to validate response time\r",
-									"*/\r",
 									"pm.test(\"Response time is less than 7000ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(700);\r",
-									"});\r",
-									"\r",
-									"/*\r",
-									"  Test Case 4: to validate header contain application/json\r",
-									"*/\r",
-									"\r",
-									"pm.test(\"The response has a json body\", function()\r",
-									"{\r",
-									"    pm.response.to.be.withBody;\r",
-									"    pm.response.to.be.json;\r",
-									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.contain(\"application/json\");\r",
 									"});\r",
 									"\r",
 									"\r",
@@ -92,19 +71,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"/*\r",
-									"  Test Case 1: to validate response status and code\r",
-									"*/\r",
-									"\r",
 									"pm.test(\"response code 200 ok\",function(){\r",
 									"   pm.expect(pm.response.code).to.equal(200);\r",
 									"   pm.expect(pm.response.status).to.equal(\"OK\");\r",
 									"});\r",
 									"\r",
 									"var jsonData = pm.response.json();\r",
-									"/*\r",
-									"  Test Case 2: firstname & lastname should be mandatory using any chai assertion\r",
-									"*/\r",
 									"\r",
 									"pm.test(\"response Body contains firstname & lastname\", function(){\r",
 									"    pm.expect(pm.response.json()).to.have.any.keys('firstName','lastName');\r",
@@ -150,19 +122,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"/*\r",
-									"  Test Case 1: to validate response status and code\r",
-									"*/\r",
-									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"/*\r",
-									"  Test Case 2: to validate the respond body contain the correct ID Book\r",
-									"*/\r",
 									"\r",
-									"pm.test(\"Searching with valid ID should return correct data in response\", function()\r",
+									"pm.test(\"the same ID should return in response\", function()\r",
 									"{\r",
 									"    for(var i = 0 ; i < pm.response.json().length ; i++)\r",
 									"    {\r",
@@ -212,16 +177,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"\r",
 									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
 									"});\r",
 									"\r",
-									" pm.test(\"The author's data is changed in GET request\", function(){\r",
-									"     pm.expect(pm.response.json().firstName).to.contain(\"First Name 10\");\r",
-									"     pm.expect(pm.response.json().lastName).to.contain(\"Last Name 10\");\r",
-									" });\r",
+									"pm.test(\"Check respond value\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.firstName).to.eql(\"First Name 10\");\r",
+									"});\r",
 									"\r",
 									"\r",
 									""
@@ -264,23 +228,22 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"/*\r",
-									" Test case 1: Test Case 1: to validate response status and code\r",
-									"*/\r",
-									"\r",
 									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
 									"});\r",
 									"\r",
-									"/*\r",
-									" Test case 2: to verfiy that Author value in response is updated successfully\r",
-									"*/\r",
-									" pm.test(\"Author's data in response is updated successfully\", function(){\r",
-									"     pm.expect(pm.response.json().firstName).to.eql(\"New Sameh\");\r",
-									"     pm.expect(pm.response.json().lastName).to.eql(\"New Khalil\");\r",
-									" });\r",
-									""
+									"\r",
+									"pm.test(\"Author's data in response is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.firstName).to.eql(\"Sameh 5555\");\r",
+									"    pm.expect(jsonData.lastName).to.eql(\"Khalil5555\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"first_Name\");\r",
+									"pm.environment.unset(\"last_Name\");\r",
+									"pm.environment.unset(\"idBook\");"
 								],
 								"type": "text/javascript"
 							}
@@ -291,8 +254,8 @@
 								"exec": [
 									"pm.environment.set(\"author_Id\", 1);\r",
 									"pm.environment.set(\"id_Book\", 1)\r",
-									"pm.environment.set(\"first_Name\", \"New Sameh\");\r",
-									"pm.environment.set(\"last_Name\", \"New Khalil\");"
+									"pm.environment.set(\"first_Name\", \"Sameh 5555\");\r",
+									"pm.environment.set(\"last_Name\", \"Khalil5555\");"
 								],
 								"type": "text/javascript"
 							}
@@ -326,30 +289,21 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Delete Author",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"/*\r",
-									" Test case 1: to validate response status and code\r",
-									"*/\r",
-									"\r",
-									"\r",
 									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
 									"});\r",
 									"\r",
-									"pm.environment.unset(\"first_Name\");\r",
-									"pm.environment.unset(\"last_Name\");\r",
 									"pm.environment.unset(\"Id_Book\");\r",
 									"pm.environment.unset(\"BookID\");\r",
-									"pm.environment.unset(\"author_Id\");\r",
-									"pm.environment.unset(\"idBook\");\r",
 									"pm.environment.unset(\"id_Book\");\r",
-									""
+									"pm.environment.unset(\"author_Id\");"
 								],
 								"type": "text/javascript"
 							}
@@ -372,7 +326,263 @@
 							"variable": [
 								{
 									"key": "id\n",
-									"value": "{{author_Id}}"
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get All Books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"check header contain Transfer-Encoding\", function () {\r",
+									"  pm.expect(pm.response.headers.get('Transfer-Encoding')).to.eql('chunked');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check respond body\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"description\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"publishDate\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/Books",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new Book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200 , 201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check respond body value\", function(){\r",
+									"     pm.expect(pm.response.json().description).to.eql(\"Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups\");\r",
+									"     pm.expect(pm.response.json().id).to.eql(600);\r",
+									" });\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 600,\r\n  \"title\": \"{{$randomProductName}}\",\r\n  \"description\": \"Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups\",\r\n  \"pageCount\": 20,\r\n  \"excerpt\": \"Clita lorem ad ex at lorem ad sed dolor. Rebum dolor eos justo in duo. Lorem...\",\r\n  \"publishDate\": \"2022-10-24T17:12:08.210Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/Books",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check ID value\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" pm.environment.set(\"BookID\", 200);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/Books/{{BookID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Books",
+								"{{BookID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CoverPhotos",
+			"item": [
+				{
+					"name": "Update Cover photo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"The data after update changed\", function(){\r",
+									"     pm.expect(pm.response.json().idBook).to.eql(25);\r",
+									" });\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 25,\r\n  \"idBook\": 25,\r\n  \"url\": \"{{$randomUrl}}\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/CoverPhotos/:Cover_id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"CoverPhotos",
+								":Cover_id"
+							],
+							"query": [
+								{
+									"key": "Cover_id",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "Cover_id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cover photo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Responce for successful HTTP request 200 ok\",function(){\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check header Content-Length\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Length')).to.eql(\"0\");\r",
+									"});\r",
+									"\r",
+									" postman.setNextRequest(null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/CoverPhotos/:id\n",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"CoverPhotos",
+								":id\n"
+							],
+							"variable": [
+								{
+									"key": "id\n",
+									"value": "10"
 								}
 							]
 						}
